@@ -9,9 +9,10 @@ class MidCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Card(
-        color:
-            (item.color == Color(00)) ? ThemeData.dark().cardColor : item.color,
-        elevation: (item.elevation == 0) ? 5.0 : item.elevation,
+        color: (item.color == Color(00))
+            ? Theme.of(context).cardColor
+            : item.color,
+        elevation: (item.elevation == 0) ? 3.0 : item.elevation,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),

@@ -1,4 +1,5 @@
 import 'package:cac_blr/src/models/items.dart';
+import 'package:cac_blr/src/ui/bottom_section/list_card.dart';
 import 'package:cac_blr/src/ui/mid_section/card.dart';
 import 'package:cac_blr/src/ui/top_section/backdrop.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController _controller;
+  int _selected = 1;
 
   _scrollListener() {
     setState(() {
@@ -55,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
+    _selected = 1;
     super.initState();
   }
 
@@ -78,12 +81,19 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Expanded(
                 child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                  physics: ClampingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       _topSection(),
                       _midListView(),
+                      SizedBox(height: 30),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: _tabBar(),
+                      ),
+                      SizedBox(height: 10),
+                      _bottomSection()
                     ],
                   ),
                 ),
@@ -100,14 +110,6 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         BackdropImage(
             "https://image.freepik.com/free-vector/gradient-geometric-shapes-dark-wallpaper-theme_23-2148437737.jpg"),
-        // Padding(
-        //   padding: EdgeInsets.only(top: 0),
-        //   child: Image.asset(
-        //     "assets/images/avatar.png",
-        //     width: MediaQuery.of(context).size.width,
-        //     alignment: Alignment.centerLeft,
-        //   ),
-        // ),
         Padding(
           padding: const EdgeInsets.only(top: 40),
           child: Column(
@@ -154,7 +156,7 @@ class _HomePageState extends State<HomePage> {
       height: MediaQuery.of(context).size.height * 0.25 + 8,
       child: ListView.separated(
         controller: _controller,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         itemCount: mid.length + 1,
@@ -162,6 +164,82 @@ class _HomePageState extends State<HomePage> {
           return SizedBox(
               width: 150,
               child: (index <= 3) ? MidCard(item: mid[index]) : null);
+        },
+        separatorBuilder: (BuildContext context, int index) =>
+            SizedBox(width: 15),
+      ),
+    );
+  }
+
+  Widget _tabBar() {
+    Widget _tabButton({int tab, String title}) {
+      return Container(
+        child: InkWell(
+          child: Padding(
+            padding: EdgeInsets.all(0),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          onTap: () {
+            if (tab != _selected) {
+              setState(() {
+                _selected = tab;
+              });
+            }
+          },
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: (_selected == tab) ? Colors.deepPurpleAccent[700] : Color(00),
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Expanded(
+              child: Container(
+                  height: 30, child: _tabButton(tab: 1, title: "FAQ"))),
+          SizedBox(width: 5),
+          Expanded(
+              child: Container(
+                  height: 30, child: _tabButton(tab: 2, title: "Preventions"))),
+          SizedBox(width: 5),
+          Expanded(
+              child: Container(
+                  height: 30, child: _tabButton(tab: 3, title: "Symptoms"))),
+          SizedBox(width: 5),
+          Expanded(
+              child: Container(
+                  height: 30, child: _tabButton(tab: 4, title: "Updates"))),
+        ],
+      ),
+    );
+  }
+
+  Widget _bottomSection() {
+    return SizedBox(
+      height: 500,
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        physics: BouncingScrollPhysics(),
+        // scrollDirection: Axis.horizontal,
+        itemCount: bottom[_selected].length,
+        itemBuilder: (BuildContext context, int index) {
+          return SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 30, right: 10),
+              child: ListCard(item: bottom[_selected][index]),
+            ),
+          );
         },
         separatorBuilder: (BuildContext context, int index) =>
             SizedBox(width: 15),

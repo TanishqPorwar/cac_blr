@@ -5,11 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class Items {
   String title;
   var content;
-  FaIcon icon;
+  dynamic icon;
   Color color;
   double elevation;
 
-  Items(String title, var content, FaIcon icon, Color color) {
+  Items(String title, var content, dynamic icon, Color color) {
     this.title = title;
     this.content = content;
     this.icon = icon;
@@ -32,20 +32,55 @@ var mid = [
 
 Map<int, List<Items>> bottom = {
   1: [
-    Items("Am I infected?", [], FaIcon(FontAwesomeIcons.biohazard), Color(00)),
-    Items("When and How to use a mask?", [],
-        FaIcon(FontAwesomeIcons.headSideMask), Color(00)),
-    Items("When to get Tested?", [], FaIcon(FontAwesomeIcons.hospital),
+    Items("Am I infected?", [], "assets/images/biohazard.png", Color(00)),
+    Items("When and How to use a mask?", [], "assets/images/virus.png",
         Color(00)),
+    Items("When to get Tested?", [], "assets/images/hospital.png", Color(00)),
     Items("how can I go out in the safest way possible", [],
-        FaIcon(FontAwesomeIcons.cartPlus), Color(00)),
+        "assets/images/pedal-board.png", Color(00)),
     Items("What does flatten the curve mean?", [],
-        FaIcon(FontAwesomeIcons.chartArea), Color(00))
+        "assets/images/area-chart.png", Color(00))
   ],
   2: [
     Items("Wash your hands with soap and water reguarly", [],
-        FaIcon(FontAwesomeIcons.handsWash), Color(00)),
+        "assets/images/coronavirus.png", Color(00)),
+    Items("Use hand sanitizer with at least 60% alcohol", [],
+        "assets/images/hand-sanitizer.png", Color(00)),
+    Items("Wash hands before touching eyes, nose and mouth", [],
+        "assets/images/clean.png", Color(00)),
+    Items("Throw used tissues into closed bins immediately after use", [],
+        "assets/images/rubbish.png", Color(00)),
+    Items("Cover your nose and mouth while sneezing", [],
+        "assets/images/cough.png", Color(00)),
+    Items("Avoid mass gathering and crowed places", [],
+        "assets/images/virus.png", Color(00)),
+  ],
+  3: [
+    Items("Wash your hands with soap and water reguarly", [],
+        "assets/images/virus.png", Color(00)),
     Items("Use hand sanitizer with atleast 60% alcohol", [],
-        FaIcon(FontAwesomeIcons.pumpMedical), Color(00)),
-  ]
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+  ],
+  4: [
+    Items("Wash your hands with soap and water reguarly", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+    Items("Use hand sanitizer with atleast 60% alcohol", [],
+        "assets/images/virus.png", Color(00)),
+  ],
 };
