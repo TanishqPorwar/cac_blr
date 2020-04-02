@@ -10,6 +10,61 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  ScrollController _controller;
+
+  _scrollListener() {
+    setState(() {
+      if (_controller.offset < 52) {
+        mid[0].setColor(Colors.deepPurpleAccent[700]);
+        mid[0].elevation = 15.0;
+        mid[1].elevation = 0;
+        mid[1].setColor(Color(00));
+        mid[2].setColor(Color(00));
+        mid[3].setColor(Color(00));
+      }
+      if (_controller.offset >= 52 && _controller.offset < 216) {
+        mid[0].setColor(Color(00));
+        mid[2].setColor(Color(00));
+        mid[3].setColor(Color(00));
+        mid[0].elevation = 0;
+        mid[2].elevation = 0;
+        mid[1].elevation = 15.0;
+        mid[1].setColor(Colors.deepPurpleAccent[700]);
+      }
+      if (_controller.offset >= 216) {
+        mid[0].setColor(Color(00));
+        mid[1].setColor(Color(00));
+        mid[3].setColor(Color(00));
+        mid[1].elevation = 0;
+        mid[3].elevation = 0;
+        mid[2].elevation = 15.0;
+        mid[2].setColor(Colors.deepPurpleAccent[700]);
+      }
+      if (_controller.offset > 380) {
+        mid[0].setColor(Color(00));
+        mid[1].setColor(Color(00));
+        mid[2].setColor(Color(00));
+        mid[2].elevation = 0;
+        mid[3].elevation = 15.0;
+        mid[3].setColor(Colors.deepPurpleAccent[700]);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_scrollListener);
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,12 +153,15 @@ class _HomePageState extends State<HomePage> {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25 + 8,
       child: ListView.separated(
+        controller: _controller,
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
-        itemCount: mid.length,
+        itemCount: mid.length + 1,
         itemBuilder: (BuildContext context, int index) {
-          return SizedBox(width: 150, child: MidCard(item: mid[index]));
+          return SizedBox(
+              width: 150,
+              child: (index <= 3) ? MidCard(item: mid[index]) : null);
         },
         separatorBuilder: (BuildContext context, int index) =>
             SizedBox(width: 15),
