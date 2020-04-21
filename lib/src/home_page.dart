@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     _controller.addListener(_scrollListener);
     _selected = 1;
     mid[2].setwebUrl("https://www.covid19india.org/");
+    // mid[3].setwebUrl("https://kgis.ksrsac.in/covid/#");
     bottom[1][0].setwebUrl("https://covid.apollo247.com/");
     bottom[1][4].setwebUrl("https://www.trackcorona.live/isolation");
     bottom[1][5].setwebUrl("https://factcheck.ksp.gov.in/");
