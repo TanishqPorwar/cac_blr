@@ -1,3 +1,4 @@
+import 'package:cac_blr/src/ui/common_ui/web_view_page.dart';
 import 'package:flutter/material.dart';
 import '../../models/items.dart';
 
@@ -38,7 +39,15 @@ class MidCard extends StatelessWidget {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: () {
+        if (item.webUrl != null) {
+          print("check");
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => WebViewPage(item.webUrl)));
+        }
+      },
     );
   }
 }

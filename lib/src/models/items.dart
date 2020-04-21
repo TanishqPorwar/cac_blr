@@ -8,14 +8,20 @@ class Items {
   dynamic icon;
   Color color;
   double elevation;
-
+  String webUrl;
   Items(String title, var content, dynamic icon, Color color) {
     this.title = title;
     this.content = content;
     this.icon = icon;
     this.color = color;
     this.elevation = 0;
+    this.webUrl = null;
   }
+
+  void setwebUrl(String u) {
+    this.webUrl = u;
+  }
+
   void setColor(Color color) {
     this.color = color;
   }
@@ -39,7 +45,9 @@ Map<int, List<Items>> bottom = {
     Items("how can I go out in the safest way possible", [],
         "assets/images/pedal-board.png", Color(00)),
     Items("What does flatten the curve mean?", [],
-        "assets/images/area-chart.png", Color(00))
+        "assets/images/area-chart.png", Color(00)),
+    Items(
+        "Verify suspicious news", [], "assets/images/fake-news.png", Color(00))
   ],
   2: [
     Items("Wash your hands with soap and water reguarly", [],
@@ -56,31 +64,15 @@ Map<int, List<Items>> bottom = {
         "assets/images/virus.png", Color(00)),
   ],
   3: [
-    Items("Wash your hands with soap and water reguarly", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
+    Items("Dry Cough", [], "assets/images/dry-cough.png", Color(00)),
+    Items("High Fever", [], "assets/images/fever.png", Color(00)),
+    Items("Sore Throat", [], "assets/images/sore-throat.png", Color(00)),
+    Items("Difficulty in Breathing", [], "assets/images/lungs.png", Color(00)),
   ],
   4: [
-    Items("Wash your hands with soap and water reguarly", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
-    Items("Use hand sanitizer with atleast 60% alcohol", [],
-        "assets/images/virus.png", Color(00)),
+    Items("Bangalore City Police", [], "assets/images/police-station.png",
+        Color(00)),
+    Items(
+        "B H Anil Kumar - BBMP", [], "assets/images/parliament.png", Color(00)),
   ],
 };

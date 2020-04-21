@@ -1,6 +1,8 @@
 import 'package:cac_blr/src/home_page.dart';
 import 'package:cac_blr/src/models/items.dart';
+import 'package:cac_blr/src/ui/bottom_section/faq/mask.dart';
 import 'package:cac_blr/src/ui/bottom_section/relative_delegate.dart';
+import 'package:cac_blr/src/ui/common_ui/web_view_page.dart';
 import 'package:flutter/material.dart';
 
 class ListCard extends StatefulWidget {
@@ -37,12 +39,17 @@ class _ListCardState extends State<ListCard> {
             ],
           ),
         ),
-
-        // when the card is tapped, go to the [DetailPage]
         onTap: () => Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: Duration(milliseconds: 500),
-                pageBuilder: (_, __, ___) => HomePage(),
+                pageBuilder: (_, __, ___) {
+                  if (widget.item.title == "When and How to use a mask?") {
+                    return MaskPage();
+                  }
+                  return (widget.item.webUrl != null)
+                      ? WebViewPage(widget.item.webUrl)
+                      : HomePage();
+                },
                 transitionsBuilder:
                     (context, animation, secondaryAnimation, child) =>
                         FadeTransition(opacity: animation, child: child),
@@ -65,8 +72,6 @@ class _ListCardState extends State<ListCard> {
                       height: 24.0,
                     ),
 
-                    // event title
-
                     Flexible(
                       child: Text(
                         widget.item.title,
@@ -74,7 +79,6 @@ class _ListCardState extends State<ListCard> {
                             color: Colors.white,
                             fontSize: 18.0,
                             fontWeight: FontWeight.w600),
-                        // overflow: TextOverflow.ellipsis,
                       ),
                     ),
 

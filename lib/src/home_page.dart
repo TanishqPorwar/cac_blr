@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ScrollController _controller;
   int _selected = 1;
-
   _scrollListener() {
     setState(() {
       if (_controller.offset < 52) {
@@ -55,10 +54,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    super.initState();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     _selected = 1;
-    super.initState();
+    mid[2].setwebUrl("https://www.covid19india.org/");
+    bottom[1][0].setwebUrl("https://covid.apollo247.com/");
+    bottom[1][4].setwebUrl("https://www.trackcorona.live/isolation");
+    bottom[1][5].setwebUrl("https://factcheck.ksp.gov.in/");
+    bottom[4][0].setwebUrl("https://twitter.com/BlrCityPolice");
+    bottom[4][1].setwebUrl("https://twitter.com/BBMPCOMM");
   }
 
   @override
