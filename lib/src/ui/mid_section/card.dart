@@ -34,7 +34,9 @@ class MidCard extends StatelessWidget {
               Text(
                 item.title,
                 textAlign: TextAlign.center,
-              )
+              ),
+              SizedBox(height: 10),
+              (item.color == Color(00)) ? Container() : Text("Open ➜"),
             ],
           ),
         ),

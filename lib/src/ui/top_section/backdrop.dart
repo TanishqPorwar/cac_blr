@@ -9,7 +9,7 @@ class BackdropImage extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     return ClipShadowPath(
-      child: Image.network(
+      child: Image.asset(
         backdropPath,
         height: mediaQuery.size.height * 0.25,
         width: mediaQuery.size.width,

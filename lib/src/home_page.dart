@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ScrollController _controller;
+  ScrollController _mainController;
   int _selected = 1;
   _scrollListener() {
     setState(() {
@@ -56,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = ScrollController();
+    _mainController = ScrollController();
     _controller.addListener(_scrollListener);
     _selected = 1;
     mid[2].setwebUrl("https://www.covid19india.org/");
@@ -87,13 +89,14 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _mainController,
                   physics: ClampingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       _topSection(),
                       _midListView(),
-                      SizedBox(height: 30),
+                      SizedBox(height: 0),
                       Padding(
                         padding: EdgeInsets.only(left: 20, right: 20),
                         child: _tabBar(),
@@ -114,8 +117,7 @@ class _HomePageState extends State<HomePage> {
   Widget _topSection() {
     return Stack(
       children: <Widget>[
-        BackdropImage(
-            "https://image.freepik.com/free-vector/gradient-geometric-shapes-dark-wallpaper-theme_23-2148437737.jpg"),
+        BackdropImage("assets/images/banner.jpg"),
         Padding(
           padding: const EdgeInsets.only(top: 40),
           child: Column(
@@ -123,7 +125,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                "Welcome!!",
+                "Welcome!",
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
@@ -180,24 +182,33 @@ class _HomePageState extends State<HomePage> {
   Widget _tabBar() {
     Widget _tabButton({int tab, String title}) {
       return Container(
-        child: InkWell(
-          child: Padding(
-            padding: EdgeInsets.all(0),
-            child: Center(
-              child: Text(
-                title,
-                style: TextStyle(fontWeight: FontWeight.bold),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: InkWell(
+            child: Padding(
+              padding: EdgeInsets.all(0),
+              child: Center(
+                child: Text(
+                  title,
+                ),
               ),
             ),
+            onTap: () async {
+              if (tab != _selected) {
+                setState(() {
+                  _selected = tab;
+                });
+                if (_mainController.hasClients) {
+                  await _mainController.animateTo(
+                    500.0,
+                    curve: Curves.decelerate,
+                    duration: const Duration(milliseconds: 2500),
+                  );
+                }
+              }
+            },
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          onTap: () {
-            if (tab != _selected) {
-              setState(() {
-                _selected = tab;
-              });
-            }
-          },
-          borderRadius: BorderRadius.circular(10.0),
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
@@ -210,19 +221,20 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
               child: Container(
                   height: 30, child: _tabButton(tab: 1, title: "FAQ"))),
-          SizedBox(width: 5),
+          // SizedBox(width: 5),
           Expanded(
               child: Container(
                   height: 30, child: _tabButton(tab: 2, title: "Preventions"))),
-          SizedBox(width: 5),
+          // SizedBox(width: 5),
           Expanded(
               child: Container(
                   height: 30, child: _tabButton(tab: 3, title: "Symptoms"))),
-          SizedBox(width: 5),
+          // SizedBox(width: 5),
           Expanded(
               child: Container(
                   height: 30, child: _tabButton(tab: 4, title: "Updates"))),
@@ -232,24 +244,62 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _bottomSection() {
-    return SizedBox(
-      height: 500,
-      child: ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        physics: BouncingScrollPhysics(),
-        // scrollDirection: Axis.horizontal,
-        itemCount: bottom[_selected].length,
-        itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 30, right: 10),
-              child: ListCard(item: bottom[_selected][index]),
+    return Stack(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: SizedBox(
+            height: 250 + MediaQuery.of(context).size.height * 0.25,
+            child: ListView.separated(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              physics: BouncingScrollPhysics(),
+              // scrollDirection: Axis.horizontal,
+              itemCount: bottom[_selected].length,
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 10),
+                    child: ListCard(item: bottom[_selected][index]),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  SizedBox(width: 15),
             ),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) =>
-            SizedBox(width: 15),
-      ),
+          ),
+        ),
+        // Container(
+        //   child: Row(
+        //     mainAxisSize: MainAxisSize.max,
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     // crossAxisAlignment: CrossAxisAlignment.end,
+        //     children: <Widget>[
+        //       SizedBox(
+        //         height: 300 + MediaQuery.of(context).size.height * 0.25,
+        //       ),
+        //       Column(
+        //         // mainAxisSize: MainAxisSize.max,
+        //         crossAxisAlignment: CrossAxisAlignment.center,
+        //         // mainAxisAlignment: MainAxisAlignment.end,
+        //         children: <Widget>[
+        //           IconButton(
+        //               icon: Icon(Icons.arrow_downward),
+        //               // color: (),
+        //               onPressed: () async {
+        //                 if (_mainController.hasClients) {
+        //                   await _mainController.animateTo(
+        //                     500.0,
+        //                     curve: Curves.decelerate,
+        //                     duration: const Duration(milliseconds: 2500),
+        //                   );
+        //                 }
+        //               })
+        //         ],
+        //       ),
+        //     ],
+        //   ),
+        // ),
+      ],
     );
   }
 }

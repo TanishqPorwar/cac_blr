@@ -15,31 +15,12 @@ class ListCard extends StatefulWidget {
 class _ListCardState extends State<ListCard> {
   final double imageHeight = 60;
   final double imageWidth = 60;
-
+  bool isTapped = false;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        child: SizedBox(
-          // setting the size of the box
-          height: imageHeight * 1.75,
-
-          // positioning the thumbnail at the center left of the bottom
-          // content
-          child: CustomMultiChildLayout(
-            delegate: RelativeDelegate(objectCenter: FractionalOffset(0, 0.5)),
-            children: <Widget>[
-              LayoutId(
-                id: Slot.bottom,
-                child: _bottomContent(),
-              ),
-              LayoutId(
-                id: Slot.top,
-                child: _topContent(),
-              )
-            ],
-          ),
-        ),
-        onTap: () => Navigator.of(context).push(
+    return (widget.item.cardType == 0)
+        ? _customCard(
+            onTap: () => Navigator.of(context).push(
               PageRouteBuilder(
                 transitionDuration: Duration(milliseconds: 500),
                 pageBuilder: (_, __, ___) {
@@ -54,8 +35,57 @@ class _ListCardState extends State<ListCard> {
                     (context, animation, secondaryAnimation, child) =>
                         FadeTransition(opacity: animation, child: child),
               ),
-            ));
+            ),
+          )
+        : (widget.item.cardType == 1)
+            ? (isTapped)
+                ? _customExpandedCard(onTap: () {
+                    setState(() {
+                      isTapped = !(isTapped);
+                    });
+                  })
+                : _customCard(onTap: () {
+                    setState(() {
+                      isTapped = !(isTapped);
+                    });
+                  })
+            : _customCard();
   }
+
+  Widget _customExpandedCard({void Function() onTap}) => InkWell(
+        child: Padding(
+          padding: EdgeInsets.only(top: imageHeight),
+          child: SizedBox(
+            height: imageHeight * 2.75,
+            child: _customChild(FractionalOffset(0.5, 0)),
+          ),
+        ),
+        onTap: onTap,
+      );
+  Widget _customCard({void Function() onTap}) => InkWell(
+        child: SizedBox(
+          // setting the size of the box
+          height: imageHeight * 1.75,
+
+          // positioning the thumbnail at the center left of the bottom
+          // content
+          child: _customChild(FractionalOffset(0, 0.5)),
+        ),
+        onTap: onTap,
+      );
+  Widget _customChild(FractionalOffset f) => CustomMultiChildLayout(
+        delegate: RelativeDelegate(objectCenter: f),
+        children: <Widget>[
+          LayoutId(
+            id: Slot.bottom,
+            child: _bottomContent(),
+          ),
+          LayoutId(
+            id: Slot.top,
+            child: _topContent(),
+          )
+        ],
+      );
 
   Widget _bottomContent() => Card(
         elevation: 10.0,
@@ -81,6 +111,16 @@ class _ListCardState extends State<ListCard> {
                             fontWeight: FontWeight.w600),
                       ),
                     ),
+                    SizedBox(height: 8),
+                    Flexible(
+                      child: Text(
+                        // widget.item.
+                        "Subtitle Lorem ipsum dolor sit amet, consectetur adipiscing elit, Lorem ipsum dolor sit amet, consectetur adipiscing elit,",
+                        style: TextStyle()
+                            .copyWith(color: Colors.white, fontSize: 12.0),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
 
                     // gap
                     SizedBox(
@@ -89,6 +129,13 @@ class _ListCardState extends State<ListCard> {
                   ],
                 ),
               ),
+              (widget.item.cardType == 0)
+                  ? Icon(Icons.arrow_right)
+                  : (widget.item.cardType == 1)
+                      ? (isTapped)
+                          ? Icon(Icons.arrow_drop_up)
+                          : Icon(Icons.arrow_drop_down)
+                      : Container(),
             ],
           ),
         ),
@@ -103,6 +150,6 @@ class _ListCardState extends State<ListCard> {
       height: imageWidth,
     );
 
-    return image;
+    return Hero(tag: widget.item.title, child: image);
   }
 }
